@@ -3,7 +3,7 @@ import s from './Todolist.module.css'
 import {SelectionType} from '../App';
 import {KeyboardEvent} from 'react';
 
-export type TaskPropsType = {
+type TaskPropsType = {
   id: string
   title: string
   isDone: boolean
@@ -14,11 +14,11 @@ type PropsTodoType = {
   todoListsId: string
   title: string
   tasks: Array<TaskPropsType>
-  deleteTask: (id: string) => void
-  changeSelection: (value: SelectionType, todoListsId:string) => void
-  addNewTask: (title: string) => void
-  changeStatus: (taskId: string, isDone: boolean) => void
-  filterTask:SelectionType
+  deleteTask: (id: string, todoListsId: string) => void
+  changeSelection: (value: SelectionType, todoListsId: string) => void
+  addNewTask: (title: string, todoListsId: string) => void
+  changeStatus: (taskId: string, isDone: boolean, todoListsId: string) => void
+  filterTask: SelectionType
 }
 
 
@@ -31,7 +31,8 @@ export const Todolist = (props: PropsTodoType) => {
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null)
     if (e.key === 'Enter') {
-      props.addNewTask(addInput);
+      props.addNewTask(addInput, props.todoListsId);
+
       setAddInput('');
     }
   }
@@ -39,7 +40,7 @@ export const Todolist = (props: PropsTodoType) => {
     if (addInput.trim() === '') {
       return setError('Поле не может быть пустым!')
     }
-    props.addNewTask(addInput.trim());
+    props.addNewTask(addInput.trim(), props.todoListsId);
     setAddInput('');
   }
 
@@ -60,7 +61,7 @@ export const Todolist = (props: PropsTodoType) => {
           {props.tasks.map((el) => {
 
             const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
-              props.changeStatus(el.id, e.currentTarget.checked)
+              props.changeStatus(el.id, e.currentTarget.checked, props.todoListsId)
             }
 
             return (
@@ -68,19 +69,24 @@ export const Todolist = (props: PropsTodoType) => {
                 <input type="checkbox" onChange={onChangeCheckHandler} checked={el.isDone}/> <span
                 className={s.span}>{el.title}</span>
                 <button className={s.button} onClick={() => {
-                  props.deleteTask(el.id)
+                  props.deleteTask(el.id, props.todoListsId)
                 }}>Del
                 </button>
               </li>
-
             )
           })}
 
         </ul>
         <div>
-          <button className={props.filterTask === 'All' ? s.activeButton : ''} onClick={() => props.changeSelection('All',props.todoListsId )}>All</button>
-          <button className={props.filterTask === 'Active' ? s.activeButton : ''} onClick={() => props.changeSelection('Active',props.todoListsId)}>Active</button>
-          <button className={props.filterTask === 'Completed' ? s.activeButton : ''} onClick={() => props.changeSelection('Completed',props.todoListsId)}>Completed</button>
+          <button className={props.filterTask === 'All' ? s.activeButton : ''}
+                  onClick={() => props.changeSelection('All', props.todoListsId)}>All
+          </button>
+          <button className={props.filterTask === 'Active' ? s.activeButton : ''}
+                  onClick={() => props.changeSelection('Active', props.todoListsId)}>Active
+          </button>
+          <button className={props.filterTask === 'Completed' ? s.activeButton : ''}
+                  onClick={() => props.changeSelection('Completed', props.todoListsId)}>Completed
+          </button>
         </div>
       </div>
     </div>
