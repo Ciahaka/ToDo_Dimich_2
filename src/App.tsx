@@ -16,7 +16,7 @@ function App() {
   function deleteTaskHandler(id: string, todoListId: string) {
     let tasks = tasksObg[todoListId]
     tasksObg[todoListId] = tasks.filter(el => el.id !== id)  //<---пропусти таски id которых не равны id той, которую нужно удалить
-    setTasksObg(tasksObg)
+    setTasks(tasksObg)
 
   }
 
@@ -31,32 +31,33 @@ function App() {
   function addNewTask(title: string, todoListsId: string) {
     let newTask = {id: v1(), title: title, isDone: false}
     let tasks = tasksObg[todoListsId]
-    // let newTasks = [newTask, ...tasks]   ///избыточная запись для примера. можно от переменной tasksObg[todoListsId] = [newTask, ...tasksObg]
-    tasksObg[todoListsId]=[newTask, ...tasks]
-    setTasksObg({...tasksObg})
+    // let newTasks = [newTask, ...tasksObg]   ///избыточная запись для примера. можно от переменной tasksObg[todoListsId] = [newTask, ...tasksObg]
+    tasksObg[todoListsId] = [newTask, ...tasks]
+    setTasks({...tasksObg})
 
   }
 
-  const changeStatusTasks = (taskId: string, isDone: boolean,todoListsId: string ) => {
+  const changeStatusTasks = (taskId: string, isDone: boolean, todoListsId: string) => {
     let tasks = tasksObg[todoListsId]
     let task = tasks.find((el) => el.id === taskId)
     if (task) {
       task.isDone = isDone
-      setTasksObg({...tasksObg})
+      setTasks({...tasksObg})
     }
     // let newTasks = [...tasksObg]
 
 
   }
   let [todoLists, setTodoLists] = useState<Array<TodoListsStateType>>([
-    {id: v1(), title: 'What to learn', filterTask: 'Completed'},
-    {id: v1(), title: 'What to buy', filterTask: 'Active'},
+    {id: v1(), title: 'What to learn', filterTask: 'All'},
+    {id: v1(), title: 'What to buy', filterTask: 'All'},
   ])
 
   let todoListsId_1 = v1()
   let todoListsId_2 = v1()
 
-  let [tasksObg, setTasksObg] = useState({
+
+  let [tasksObg, setTasks] = useState({
     [todoListsId_1]: [
       {id: v1(), title: 'JS', isDone: true},
       {id: v1(), title: 'HTMl', isDone: false},
@@ -69,6 +70,12 @@ function App() {
       {id: v1(), title: 'Ku-ku-ru-ka', isDone: true},
     ]
   })
+  let delTodolist = (todoListsId: string) => {
+    let filteredTodo = todoLists.filter(el => el.id !== todoListsId)
+    setTodoLists(filteredTodo)
+    delete tasksObg[todoListsId]
+    setTasks({...tasksObg})
+  }
   return (
     <div className="App">
       {todoLists.map((tl) => {
@@ -84,11 +91,12 @@ function App() {
           todoListsId={tl.id}
           title={tl.title}
           tasks={selection}
-          deleteTask={ deleteTaskHandler}
+          deleteTask={deleteTaskHandler}
           changeSelection={changeSelection}
           addNewTask={addNewTask}
           changeStatus={changeStatusTasks}
           filterTask={tl.filterTask}
+          delTodolist={delTodolist}
         />
       })}
     </div>

@@ -19,6 +19,7 @@ type PropsTodoType = {
   addNewTask: (title: string, todoListsId: string) => void
   changeStatus: (taskId: string, isDone: boolean, todoListsId: string) => void
   filterTask: SelectionType
+  delTodolist:(todoListsId: string)=>void
 }
 
 
@@ -43,12 +44,16 @@ export const Todolist = (props: PropsTodoType) => {
     props.addNewTask(addInput.trim(), props.todoListsId);
     setAddInput('');
   }
-
+  const delTodolist = () => {
+    props.delTodolist(props.todoListsId)
+  }
 
   return (
     <div className="App">
       <div>
-        <h3 className={s.h3}>{props.title}</h3>
+        <h3 className={s.h3}>{props.title}
+          <button onClick={delTodolist}>DeL</button>
+        </h3>
         <div>
 
           <input className={error ? s.error : ''} value={addInput} onChange={onChangeHandler}
@@ -57,20 +62,18 @@ export const Todolist = (props: PropsTodoType) => {
           {error && <div className={s.errorMessage}> {error} </div>}
 
         </div>
-        <ul className={s.ul}>
-          {props.tasks.map((el) => {
 
+        <ul className={s.ul}>
+          {props.tasks.map(el => {
+            const onClickDeleteTaskHandler = ()=>props.deleteTask(el.id, props.todoListsId)
             const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
               props.changeStatus(el.id, e.currentTarget.checked, props.todoListsId)
             }
-
             return (
               <li key={el.id} className={`${s.li} ${el.isDone ? s.isDone : ''}`}>
                 <input type="checkbox" onChange={onChangeCheckHandler} checked={el.isDone}/> <span
                 className={s.span}>{el.title}</span>
-                <button className={s.button} onClick={() => {
-                  props.deleteTask(el.id, props.todoListsId)
-                }}>Del
+                <button className={s.button} onClick={onClickDeleteTaskHandler}>Del
                 </button>
               </li>
             )
