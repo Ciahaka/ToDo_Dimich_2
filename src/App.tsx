@@ -19,7 +19,7 @@ function App() {
     {id: v1(), title: 'React', isDone: false},
   ])
 
-  let [stateSelection, setStateSelection] = useState<SelectionType>('All')
+  // let [stateSelection, setStateSelection] = useState<SelectionType>('All')
 
 
   function deleteTaskHandler(id: string) {
@@ -29,15 +29,10 @@ function App() {
   }
 
   let selection = tasks
-  if (stateSelection === 'Completed') {
-    selection = tasks.filter(el => el.isDone)
-  }
-  if (stateSelection === 'Active') {
-    selection = tasks.filter(el => !el.isDone)
-  }
 
-  const changeSelection = (value: SelectionType) => {
-    setStateSelection(value)
+
+  const changeSelection = (value: SelectionType, todoListsId:string) => {
+
   };
 
   function addNewTask (title:string) {
@@ -55,16 +50,24 @@ function App() {
     // let newTasks = [...tasks]
     setTasks([...tasks])
   }
-    const todoLists:Array<TodoListsStateType> = [
+   const [todoLists, setTodoLists] = useState<Array<TodoListsStateType>>( [
       {id:v1 (), title:'What to learn', filterTask:'Completed'},
       {id:v1 (), title:'What to buy', filterTask:'Active'},
-    ]
+    ])
 
 
   return (
     <div className="App">
       {todoLists.map((tl)=>{
+        if (tl.filterTask === 'Completed') {
+          selection = tasks.filter(el => el.isDone)
+        }
+        if (tl.filterTask === 'Active') {
+          selection = tasks.filter(el => !el.isDone)
+        }
         return <Todolist
+          key={tl.id}
+          todoListsId={tl.id}
           title={tl.title}
           tasks={selection}
           deleteTask={deleteTaskHandler}

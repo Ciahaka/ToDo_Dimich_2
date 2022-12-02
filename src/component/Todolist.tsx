@@ -11,10 +11,11 @@ export type TaskPropsType = {
 }
 
 type PropsTodoType = {
+  todoListsId: string
   title: string
   tasks: Array<TaskPropsType>
   deleteTask: (id: string) => void
-  changeSelection: (value: SelectionType) => void
+  changeSelection: (value: SelectionType, todoListsId:string) => void
   addNewTask: (title: string) => void
   changeStatus: (taskId: string, isDone: boolean) => void
   filterTask:SelectionType
@@ -77,9 +78,9 @@ export const Todolist = (props: PropsTodoType) => {
 
         </ul>
         <div>
-          <button className={props.filterTask === 'All' ? s.activeButton : ''} onClick={() => props.changeSelection('All')}>All</button>
-          <button className={props.filterTask === 'Active' ? s.activeButton : ''} onClick={() => props.changeSelection('Active')}>Active</button>
-          <button className={props.filterTask === 'Completed' ? s.activeButton : ''} onClick={() => props.changeSelection('Completed')}>Completed</button>
+          <button className={props.filterTask === 'All' ? s.activeButton : ''} onClick={() => props.changeSelection('All',props.todoListsId )}>All</button>
+          <button className={props.filterTask === 'Active' ? s.activeButton : ''} onClick={() => props.changeSelection('Active',props.todoListsId)}>Active</button>
+          <button className={props.filterTask === 'Completed' ? s.activeButton : ''} onClick={() => props.changeSelection('Completed',props.todoListsId)}>Completed</button>
         </div>
       </div>
     </div>
