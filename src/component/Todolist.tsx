@@ -66,12 +66,14 @@ export const Todolist = (props: PropsTodoType) => {
 
         </div>
 
-        <ul className={s.ul}>
-          {props.tasks.map(el => {
+         <ul className={s.ul}>
+
+          {props.tasks.map((el) => {
             const onClickDeleteTaskHandler = () => props.deleteTask(el.id, props.todoListsId)
             const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
               props.changeStatus(el.id, e.currentTarget.checked, props.todoListsId)
             }
+
             return (
               <li key={el.id} className={`${s.li} ${el.isDone ? s.isDone : ''}`}>
                 <input type="checkbox" onChange={onChangeCheckHandler} checked={el.isDone}/> <span

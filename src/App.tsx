@@ -14,10 +14,10 @@ export type TaskPropsType = {
 export type  TodoListsStateType = {
   id: string
   title: string
-   filterTask: SelectionType
+  filterTask: SelectionType
 }
-type TaskStateType={
-  [todoListsId:string]:Array<TaskPropsType>
+type TaskStateType = {
+  [todoListsId: string]: Array<TaskPropsType>
 }
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
   })
 
   const deleteTaskHandler = (id: string, todoListId: string) => {
-  const tasks = tasksObg[todoListId]
+    const tasks = tasksObg[todoListId]
     tasksObg[todoListId] = tasks.filter(el => el.id !== id)  //<---пропусти таски id которых не равны id той, которую нужно удалить
     setTasks(tasksObg)
 
@@ -76,37 +76,44 @@ function App() {
     }
   }
 
-const delTodolist = (todoListsId: string) => {
-   const filteredTodo = todoLists.filter(el => el.id !== todoListsId)
+  const delTodolist = (todoListsId: string) => {
+    const filteredTodo = todoLists.filter(el => el.id !== todoListsId)
     setTodoLists(filteredTodo)
     delete tasksObg[todoListsId]
     setTasks({...tasksObg})
   }
 
+  const getFilteredTasks = (tasks: Array<TaskPropsType>, filterTask: SelectionType) => {
+    let selectionTasks = tasks
+    if (filterTask === 'Completed') {
+      selectionTasks = tasks.filter(el => el.isDone)
+    }
+    if (filterTask === 'Active') {
+      selectionTasks = tasks.filter(el => !el.isDone)
+    }
+    return selectionTasks
+  }
+
+  const todoListsComponents = todoLists.map((tl) => {
+   const selectionTasks = getFilteredTasks(tasksObg[tl.id],tl.filterTask)
+    return (<Todolist
+        key={tl.id}
+        todoListsId={tl.id}
+        title={tl.title}
+        filterTask={tl.filterTask}
+        tasks={selectionTasks}
+        deleteTask={deleteTaskHandler}
+        changeSelection={changeSelection}
+        addNewTask={addNewTask}
+        changeStatus={changeStatusTasks}
+        delTodolist={delTodolist}
+      />
+    )
+  })
+
   return (
     <div className="App">
-      {todoLists.map((tl) => {
-        debugger
-         let selection = tasksObg[tl.id]
-        if (tl.filterTask === 'Completed') {
-          selection = selection.filter(el => el.isDone)
-        }
-        if (tl.filterTask === 'Active') {
-          selection = selection.filter(el => !el.isDone)
-        }
-        return <Todolist
-          key={tl.id}
-          todoListsId={tl.id}
-          title={tl.title}
-          tasks={selection}
-          deleteTask={deleteTaskHandler}
-          changeSelection={changeSelection}
-          addNewTask={addNewTask}
-          changeStatus={changeStatusTasks}
-          filterTask={tl.filterTask}
-          delTodolist={delTodolist}
-        />
-      })}
+      {todoListsComponents}
     </div>
   );
 }
