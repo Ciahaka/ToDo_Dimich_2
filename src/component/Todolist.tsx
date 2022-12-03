@@ -3,7 +3,7 @@ import s from './Todolist.module.css'
 import {SelectionType} from '../App';
 import {KeyboardEvent} from 'react';
 
-type TaskPropsType = {
+export type TaskPropsType = {
   id: string
   title: string
   isDone: boolean
@@ -11,21 +11,24 @@ type TaskPropsType = {
 }
 
 type PropsTodoType = {
-  todoListsId: string
   title: string
+  todoListsId: string
   tasks: Array<TaskPropsType>
+  filterTask: SelectionType
+
+  delTodolist: (todoListsId: string) => void
+  addNewTask: (title: string, todoListsId: string) => void
   deleteTask: (id: string, todoListsId: string) => void
   changeSelection: (value: SelectionType, todoListsId: string) => void
-  addNewTask: (title: string, todoListsId: string) => void
   changeStatus: (taskId: string, isDone: boolean, todoListsId: string) => void
-  filterTask: SelectionType
-  delTodolist:(todoListsId: string)=>void
+
+
 }
 
 
 export const Todolist = (props: PropsTodoType) => {
-  let [addInput, setAddInput] = useState('')
-  let [error, setError] = useState<string | null>(null)
+  const [addInput, setAddInput] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setAddInput(e.currentTarget.value)
 
@@ -65,7 +68,7 @@ export const Todolist = (props: PropsTodoType) => {
 
         <ul className={s.ul}>
           {props.tasks.map(el => {
-            const onClickDeleteTaskHandler = ()=>props.deleteTask(el.id, props.todoListsId)
+            const onClickDeleteTaskHandler = () => props.deleteTask(el.id, props.todoListsId)
             const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
               props.changeStatus(el.id, e.currentTarget.checked, props.todoListsId)
             }
