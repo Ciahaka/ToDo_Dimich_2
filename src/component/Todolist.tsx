@@ -2,6 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import s from './Todolist.module.css'
 import {SelectionType} from '../App';
 import {KeyboardEvent} from 'react';
+import {AddItemForm} from './AddItemForm';
 
 export type TaskPropsType = {
   id: string
@@ -25,30 +26,14 @@ type PropsTodoType = {
 
 }
 
-
 export const Todolist = (props: PropsTodoType) => {
-  const [addInput, setAddInput] = useState('')
-  const [error, setError] = useState<string | null>(null)
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setAddInput(e.currentTarget.value)
-
-  const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null)
-    if (e.key === 'Enter') {
-      props.addNewTask(addInput, props.todoListsId);
-
-      setAddInput('');
-    }
-  }
-  const addTaskHandler = () => {
-    if (addInput.trim() === '') {
-      return setError('Поле не может быть пустым!')
-    }
-    props.addNewTask(addInput.trim(), props.todoListsId);
-    setAddInput('');
-  }
   const delTodolist = () => {
     props.delTodolist(props.todoListsId)
+  }
+
+  const addNewTask = (title:string)=>{
+    props.addNewTask(title,props.todoListsId)
   }
 
   return (
@@ -57,28 +42,26 @@ export const Todolist = (props: PropsTodoType) => {
         <h3 className={s.h3}>{props.title}
           <button onClick={delTodolist}>DeL</button>
         </h3>
-        <div>
+        <AddItemForm addItem={addNewTask}/>
 
-          <input className={error ? s.error : ''} value={addInput} onChange={onChangeHandler}
-                 onKeyDown={onKeyDownHandler}/>
-          <button onClick={addTaskHandler}>+</button>
-          {error && <div className={s.errorMessage}> {error} </div>}
-
-        </div>
-
-         <ul className={s.ul}>
+           <ul className={s.ul}>
 
           {props.tasks.map((el) => {
-            const onClickDeleteTaskHandler = () => props.deleteTask(el.id, props.todoListsId)
-            const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
-              props.changeStatus(el.id, e.currentTarget.checked, props.todoListsId)
+
+            const deleteTaskHandler = () => props.deleteTask(el.id, props.todoListsId)
+
+            const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+              props.changeStatus(el.id,
+                e.currentTarget.checked, props.todoListsId)
             }
 
             return (
+
               <li key={el.id} className={`${s.li} ${el.isDone ? s.isDone : ''}`}>
-                <input type="checkbox" onChange={onChangeCheckHandler} checked={el.isDone}/> <span
+                <input type="checkbox" onChange={changeStatusHandler} checked={el.isDone}/> <span
                 className={s.span}>{el.title}</span>
-                <button className={s.button} onClick={onClickDeleteTaskHandler}>Del
+
+                <button className={s.button} onClick={deleteTaskHandler}>Del
                 </button>
               </li>
             )
