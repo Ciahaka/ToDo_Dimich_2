@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from './component/Todolist';
 import {v1} from 'uuid';
+import {AddItemForm} from './component/AddItemForm';
 
 export type SelectionType = 'All' | 'Completed' | 'Active'
 
@@ -25,8 +26,8 @@ function App() {
   const todoListsId_2 = v1()
 
   const [todoLists, setTodoLists] = useState<Array<TodoListsStateType>>([
-    {id: v1(), title: 'What to learn', filterTask: 'All'},
-    {id: v1(), title: 'What to buy', filterTask: 'All'},
+    {id: todoListsId_1, title: 'What to learn', filterTask: 'All'},
+    {id: todoListsId_2, title: 'What to buy', filterTask: 'All'},
   ])
 
   const [tasksObg, setTasks] = useState<TaskStateType>({
@@ -46,7 +47,7 @@ function App() {
   const deleteTaskHandler = (id: string, todoListId: string) => {
     const tasks = tasksObg[todoListId]
     tasksObg[todoListId] = tasks.filter(el => el.id !== id)  //<---пропусти таски id которых не равны id той, которую нужно удалить
-    setTasks(tasksObg)
+    setTasks({...tasksObg})
 
   }
 
@@ -84,6 +85,7 @@ function App() {
   }
 
   const getFilteredTasks = (tasks: Array<TaskPropsType>, filterTask: SelectionType) => {
+
     let selectionTasks = tasks
     if (filterTask === 'Completed') {
       selectionTasks = tasks.filter(el => el.isDone)
@@ -96,7 +98,11 @@ function App() {
 
   const todoListsComponents = todoLists.map((tl) => {
    const selectionTasks = getFilteredTasks(tasksObg[tl.id],tl.filterTask)
-    return (<Todolist
+
+    return (
+
+
+      <Todolist
         key={tl.id}
         todoListsId={tl.id}
         title={tl.title}
@@ -113,6 +119,7 @@ function App() {
 
   return (
     <div className="App">
+      <AddItemForm addItem={(title)=>{alert('YYYYY')}}/>
       {todoListsComponents}
     </div>
   );
