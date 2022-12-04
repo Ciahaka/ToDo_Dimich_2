@@ -1,24 +1,19 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from './component/Todolist';
+import {Todolist,TaskPropsType} from './component/Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from './component/AddItemForm';
 
 export type SelectionType = 'All' | 'Completed' | 'Active'
 
-export type TaskPropsType = {
-  id: string
-  title: string
-  isDone: boolean
 
-}
 export type  TodoListsStateType = {
   id: string
   title: string
   filterTask: SelectionType
 }
 type TaskStateType = {
-  [todoListsId: string]: Array<TaskPropsType>
+  [bug: string]: Array<TaskPropsType>
 }
 
 function App() {
@@ -96,8 +91,20 @@ function App() {
     return selectionTasks
   }
 
+  const addNewTodoList = (title: string) => {
+    const todoList: TodoListsStateType = {
+      id: v1(),
+      title: title,
+      filterTask:'All'
+    }
+    setTodoLists([todoList, ...todoLists])
+    setTasks({...tasksObg,[todoList.id]:[]})
+
+  }
+
   const todoListsComponents = todoLists.map((tl) => {
-   const selectionTasks = getFilteredTasks(tasksObg[tl.id],tl.filterTask)
+    const selectionTasks = getFilteredTasks(tasksObg[tl.id], tl.filterTask)
+
 
     return (
 
@@ -119,7 +126,7 @@ function App() {
 
   return (
     <div className="App">
-      <AddItemForm addItem={(title)=>{alert('YYYYY')}}/>
+      <AddItemForm addItem={addNewTodoList}/>
       {todoListsComponents}
     </div>
   );
