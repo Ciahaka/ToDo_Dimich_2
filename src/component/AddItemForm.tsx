@@ -16,7 +16,7 @@ export const AddItemForm = (props:AddItemFormType) => {
     if (addInput.trim() === '') {
       return setError('Поле не может быть пустым!')
     }
-    props.addItem(addInput.trim());
+    props.addItem(addInput.trim ());
     setAddInput('');
   }
 
