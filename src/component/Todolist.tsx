@@ -3,6 +3,7 @@ import s from './Todolist.module.css'
 import {SelectionType} from '../App';
 import {KeyboardEvent} from 'react';
 import {AddItemForm} from './AddItemForm';
+import {ChangeSpanForm} from './ChangeSpanForm';
 
 export type TaskPropsType = {
   id: string
@@ -22,6 +23,7 @@ type PropsTodoType = {
   deleteTask: (id: string, todoListsId: string) => void
   changeSelection: (value: SelectionType, todoListsId: string) => void
   changeStatus: (taskId: string, isDone: boolean, todoListsId: string) => void
+  changeTitleBlur: (taskId: string, value:string, todoListsId: string) => void
 
 
 }
@@ -54,12 +56,16 @@ export const Todolist = (props: PropsTodoType) => {
               props.changeStatus(el.id,
                 e.currentTarget.checked, props.todoListsId)
             }
+            const changeActiveBlurHandler = (value:string) => {
+              props.changeTitleBlur(el.id, value, props.todoListsId)
+            }
 
             return (
 
               <li key={el.id} className={`${s.li} ${el.isDone ? s.isDone : ''}`}>
-                <input type="checkbox" onChange={changeStatusHandler} checked={el.isDone}/> <span
-                className={s.span}>{el.title}</span>
+                <input type="checkbox" onChange={changeStatusHandler} checked={el.isDone}/>
+
+                <ChangeSpanForm title={el.title} changeActiveBlur={changeActiveBlurHandler}/>
 
                 <button className={s.button} onClick={deleteTaskHandler}>Del
                 </button>
