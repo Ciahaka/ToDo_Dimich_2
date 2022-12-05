@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist,TaskPropsType} from './component/Todolist';
+import {Todolist, TaskPropsType} from './component/Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from './component/AddItemForm';
 
@@ -71,7 +71,7 @@ function App() {
       setTasks({...tasksObg})
     }
   }
-  const changeTaskTitle = (taskId: string, newTitle: string, todoListsId: string)=>{
+  const changeTaskTitle = (taskId: string, newTitle: string, todoListsId: string) => {
     const tasks = tasksObg[todoListsId]
     const task = tasks.find((el) => el.id === taskId)
     if (task) {
@@ -103,11 +103,20 @@ function App() {
     const todoList: TodoListsStateType = {
       id: v1(),
       title: title,
-      filterTask:'All'
+      filterTask: 'All'
     }
     setTodoLists([todoList, ...todoLists])
-    setTasks({...tasksObg,[todoList.id]:[]})
+    setTasks({...tasksObg, [todoList.id]: []})
 
+  }
+
+  const addNewTitleTodo = (todoListsId: string, newTitle: string) => {
+    const changeTitleTodo = todoLists.find(tl => tl.id === todoListsId)
+    if (changeTitleTodo) {
+      changeTitleTodo.title = newTitle
+      setTodoLists([...todoLists])
+    }
+    return todoLists
   }
 
   const todoListsComponents = todoLists.map((tl) => {
@@ -129,6 +138,7 @@ function App() {
         changeStatus={changeStatusTasks}
         delTodolist={delTodolist}
         changeTitleBlur={changeTaskTitle}
+        newTitleTodo={addNewTitleTodo}
       />
     )
   })

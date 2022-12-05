@@ -24,6 +24,7 @@ type PropsTodoType = {
   changeSelection: (value: SelectionType, todoListsId: string) => void
   changeStatus: (taskId: string, isDone: boolean, todoListsId: string) => void
   changeTitleBlur: (taskId: string, value:string, todoListsId: string) => void
+  newTitleTodo: (todoListsId: string,newTitle:string )=>void
 
 
 }
@@ -37,12 +38,17 @@ export const Todolist = (props: PropsTodoType) => {
   const addNewTask = (title:string)=>{
     props.addNewTask(title,props.todoListsId)
   }
+  const changeTitleTodo = (newTitle:string)=>{
+   props.newTitleTodo(props.todoListsId, newTitle)
+  }
 
   return (
     <div className="App">
       <div>
-        <h3 className={s.h3}>{props.title}
-          <button onClick={delTodolist}>DeL</button>
+        <h3 className={s.h3}>
+          <ChangeSpanForm title={props.title} changeActiveBlur={changeTitleTodo}/>
+          {/*{props.title}*/}
+          <button  onClick={delTodolist}>DeL</button>
         </h3>
         <AddItemForm addItem={addNewTask}/>
 
