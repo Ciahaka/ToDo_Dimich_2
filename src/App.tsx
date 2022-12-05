@@ -13,7 +13,7 @@ export type  TodoListsStateType = {
   filterTask: SelectionType
 }
 type TaskStateType = {
-  [bug: string]: Array<TaskPropsType>
+  [todoListsId: string]: Array<TaskPropsType>
 }
 
 function App() {
