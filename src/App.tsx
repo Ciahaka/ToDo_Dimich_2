@@ -71,6 +71,14 @@ function App() {
       setTasks({...tasksObg})
     }
   }
+  const changeTaskTitle = (taskId: string, newTitle: string, todoListsId: string)=>{
+    const tasks = tasksObg[todoListsId]
+    const task = tasks.find((el) => el.id === taskId)
+    if (task) {
+      task.title = newTitle
+      setTasks({...tasksObg})
+    }
+  }
 
   const delTodolist = (todoListsId: string) => {
     const filteredTodo = todoLists.filter(el => el.id !== todoListsId)
@@ -120,6 +128,7 @@ function App() {
         addNewTask={addNewTask}
         changeStatus={changeStatusTasks}
         delTodolist={delTodolist}
+        changeTitleBlur={changeTaskTitle}
       />
     )
   })
