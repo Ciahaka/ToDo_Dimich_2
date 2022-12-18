@@ -87,17 +87,7 @@ function App() {
     setTasks({...tasksObg})
   }
 
-  const getFilteredTasks = (tasks: Array<TaskPropsType>, filterTask: SelectionType) => {
 
-    let selectionTasks = tasks
-    if (filterTask === 'Completed') {
-      selectionTasks = tasks.filter(el => el.isDone)
-    }
-    if (filterTask === 'Active') {
-      selectionTasks = tasks.filter(el => !el.isDone)
-    }
-    return selectionTasks
-  }
 
   const addNewTodoList = (title: string) => {
     const todoList: TodoListsStateType = {
@@ -118,7 +108,17 @@ function App() {
     }
     return todoLists
   }
+  const getFilteredTasks = (tasks: Array<TaskPropsType>, filterTask: SelectionType) => {
 
+    let selectionTasks = tasks
+    if (filterTask === 'Completed') {
+      selectionTasks = tasks.filter(el => el.isDone)
+    }
+    if (filterTask === 'Active') {
+      selectionTasks = tasks.filter(el => !el.isDone)
+    }
+    return selectionTasks
+  }
   const todoListsComponents = todoLists.map((tl) => {
     const selectionTasks = getFilteredTasks(tasksObg[tl.id], tl.filterTask)
 

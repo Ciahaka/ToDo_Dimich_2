@@ -1,5 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from './Todolist.module.css';
+import {Button, TextField} from '@mui/material';
+import {BookmarkAddTwoTone} from '@mui/icons-material';
+
 
 export type AddItemFormType={
   addItem: (title: string) => void
@@ -31,10 +34,21 @@ export const AddItemForm = (props:AddItemFormType) => {
 
   return (
     <div>
-      <input className={error ? s.error : ''} value={addInput} onChange={onChangeHandler}
-             onKeyDown={onKeyDownHandler}/>
-      <button onClick={addTaskHandler}>+</button>
-      {error && <div className={s.errorMessage}> {error} </div>}
+      <TextField
+        variant={'outlined'}
+        label={'Type Value'}
+        error={!!error}
+        helperText={error}
+        // className={error ? s.error : ''}
+        value={addInput}
+        onChange={onChangeHandler}
+        onKeyDown={onKeyDownHandler}/>
+      <Button
+        onClick={addTaskHandler}
+        color={'primary'}
+        size={'large'} ><BookmarkAddTwoTone/> </Button>
+      {/*{error && <div className={s.errorMessage}> {error} </div>}*/}
+
     </div>
   );
 };

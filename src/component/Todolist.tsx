@@ -4,6 +4,16 @@ import {SelectionType} from '../App';
 import {KeyboardEvent} from 'react';
 import {AddItemForm} from './AddItemForm';
 import {ChangeSpanForm} from './ChangeSpanForm';
+import {Button, Checkbox, IconButton} from '@mui/material';
+import {
+  Beenhere,
+  BeenhereSharp,
+  Bookmark,
+  BookmarkBorder,
+  ClassSharp,
+  DeleteForeverSharp,
+  DeleteSharp
+} from '@mui/icons-material';
 
 export type TaskPropsType = {
   id: string
@@ -23,8 +33,8 @@ type PropsTodoType = {
   deleteTask: (id: string, todoListsId: string) => void
   changeSelection: (value: SelectionType, todoListsId: string) => void
   changeStatus: (taskId: string, isDone: boolean, todoListsId: string) => void
-  changeTitleBlur: (taskId: string, value:string, todoListsId: string) => void
-  newTitleTodo: (todoListsId: string,newTitle:string )=>void
+  changeTitleBlur: (taskId: string, value: string, todoListsId: string) => void
+  newTitleTodo: (todoListsId: string, newTitle: string) => void
 
 
 }
@@ -35,11 +45,11 @@ export const Todolist = (props: PropsTodoType) => {
     props.delTodolist(props.todoListsId)
   }
 
-  const addNewTask = (title:string)=>{
-    props.addNewTask(title,props.todoListsId)
+  const addNewTask = (title: string) => {
+    props.addNewTask(title, props.todoListsId)
   }
-  const changeTitleTodo = (newTitle:string)=>{
-   props.newTitleTodo(props.todoListsId, newTitle)
+  const changeTitleTodo = (newTitle: string) => {
+    props.newTitleTodo(props.todoListsId, newTitle)
   }
 
   return (
@@ -48,11 +58,12 @@ export const Todolist = (props: PropsTodoType) => {
         <h3 className={s.h3}>
           <ChangeSpanForm title={props.title} changeActiveBlur={changeTitleTodo}/>
           {/*{props.title}*/}
-          <button  onClick={delTodolist}>DeL</button>
+
+          <IconButton className={s.button} onClick={delTodolist} color={'primary'}><DeleteSharp/> </IconButton>
         </h3>
         <AddItemForm addItem={addNewTask}/>
 
-           <ul className={s.ul}>
+        <ul className={s.ul}>
 
           {props.tasks.map((el) => {
 
@@ -62,34 +73,44 @@ export const Todolist = (props: PropsTodoType) => {
               props.changeStatus(el.id,
                 e.currentTarget.checked, props.todoListsId)
             }
-            const changeActiveBlurHandler = (value:string) => {
+            const changeActiveBlurHandler = (value: string) => {
               props.changeTitleBlur(el.id, value, props.todoListsId)
             }
 
             return (
 
               <li key={el.id} className={`${s.li} ${el.isDone ? s.isDone : ''}`}>
-                <input type="checkbox" onChange={changeStatusHandler} checked={el.isDone}/>
+                <Checkbox onChange={changeStatusHandler}
+                          checked={el.isDone}
+                          color={'primary'}
+                          icon={<BeenhereSharp/>}
+                          checkedIcon={<Beenhere/>}/>
 
                 <ChangeSpanForm title={el.title} changeActiveBlur={changeActiveBlurHandler}/>
 
-                <button className={s.button} onClick={deleteTaskHandler}>Del
-                </button>
+                {/*<button className={s.button} onClick={deleteTaskHandler}>Del*/}
+                {/*</button>*/}
+                <IconButton className={s.button} onClick={deleteTaskHandler} color={'primary'} size={'large'}><DeleteForeverSharp/> </IconButton>
               </li>
             )
           })}
 
         </ul>
         <div>
-          <button className={props.filterTask === 'All' ? s.activeButton : ''}
-                  onClick={() => props.changeSelection('All', props.todoListsId)}>All
-          </button>
-          <button className={props.filterTask === 'Active' ? s.activeButton : ''}
-                  onClick={() => props.changeSelection('Active', props.todoListsId)}>Active
-          </button>
-          <button className={props.filterTask === 'Completed' ? s.activeButton : ''}
-                  onClick={() => props.changeSelection('Completed', props.todoListsId)}>Completed
-          </button>
+          <Button
+            variant={props.filterTask === 'All' ? 'outlined' : 'text'}
+            onClick={() => props.changeSelection('All', props.todoListsId)}>All
+          </Button>
+          <Button
+            color={'primary'}
+            variant={props.filterTask === 'Active' ? 'contained' : 'text'}
+            onClick={() => props.changeSelection('Active', props.todoListsId)}>Active
+          </Button>
+          <Button
+            color={'error'}
+            variant={props.filterTask === 'Completed' ? 'contained' : 'text'}
+            onClick={() => props.changeSelection('Completed', props.todoListsId)}>Completed
+          </Button>
         </div>
       </div>
     </div>
