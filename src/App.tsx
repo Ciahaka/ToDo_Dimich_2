@@ -3,6 +3,8 @@ import './App.css';
 import {Todolist, TaskPropsType} from './component/Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from './component/AddItemForm';
+import {AppBar, Button, Container, IconButton, Paper, Toolbar, Typography} from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 export type SelectionType = 'All' | 'Completed' | 'Active'
 
@@ -14,6 +16,10 @@ export type  TodoListsStateType = {
 }
 type TaskStateType = {
   [todoListsId: string]: Array<TaskPropsType>
+}
+
+function MenuIcon() {
+  return null;
 }
 
 function App() {
@@ -88,7 +94,6 @@ function App() {
   }
 
 
-
   const addNewTodoList = (title: string) => {
     const todoList: TodoListsStateType = {
       id: v1(),
@@ -125,28 +130,56 @@ function App() {
 
     return (
 
-
-      <Todolist
-        key={tl.id}
-        todoListsId={tl.id}
-        title={tl.title}
-        filterTask={tl.filterTask}
-        tasks={selectionTasks}
-        deleteTask={deleteTaskHandler}
-        changeSelection={changeSelection}
-        addNewTask={addNewTask}
-        changeStatus={changeStatusTasks}
-        delTodolist={delTodolist}
-        changeTitleBlur={changeTaskTitle}
-        newTitleTodo={addNewTitleTodo}
-      />
+      <Grid2>
+        <Paper style={{padding:'18px'}}>
+        <Todolist
+          key={tl.id}
+          todoListsId={tl.id}
+          title={tl.title}
+          filterTask={tl.filterTask}
+          tasks={selectionTasks}
+          deleteTask={deleteTaskHandler}
+          changeSelection={changeSelection}
+          addNewTask={addNewTask}
+          changeStatus={changeStatusTasks}
+          delTodolist={delTodolist}
+          changeTitleBlur={changeTaskTitle}
+          newTitleTodo={addNewTitleTodo}
+        />
+        </Paper>
+      </Grid2>
     )
   })
 
   return (
-    <div className="App">
-      <AddItemForm addItem={addNewTodoList}/>
-      {todoListsComponents}
+    <div>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{mr: 2}}
+          >
+            <MenuIcon/>
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+            My TodoList project
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+      <Container fixed>
+        <Grid2 container style={{padding:'18px'}}>
+          <Paper style={{padding:'3px'}}>
+          <AddItemForm addItem={addNewTodoList}/>
+          </Paper>
+        </Grid2>
+        <Grid2 container spacing={4}>
+          {todoListsComponents}
+        </Grid2>
+      </Container>
     </div>
   );
 }

@@ -1,16 +1,11 @@
-import React, {ChangeEvent, useState} from 'react';
-import s from './Todolist.module.css'
+import React, {ChangeEvent} from 'react';
 import {SelectionType} from '../App';
-import {KeyboardEvent} from 'react';
 import {AddItemForm} from './AddItemForm';
 import {ChangeSpanForm} from './ChangeSpanForm';
-import {Button, Checkbox, IconButton} from '@mui/material';
+import {Button, Checkbox, IconButton, List, ListItem} from '@mui/material';
 import {
   Beenhere,
   BeenhereSharp,
-  Bookmark,
-  BookmarkBorder,
-  ClassSharp,
   DeleteForeverSharp,
   DeleteSharp
 } from '@mui/icons-material';
@@ -53,17 +48,17 @@ export const Todolist = (props: PropsTodoType) => {
   }
 
   return (
-    <div className="App">
+    <div>
       <div>
-        <h3 className={s.h3}>
+        <h3>
           <ChangeSpanForm title={props.title} changeActiveBlur={changeTitleTodo}/>
           {/*{props.title}*/}
 
-          <IconButton className={s.button} onClick={delTodolist} color={'primary'}><DeleteSharp/> </IconButton>
+          <IconButton onClick={delTodolist} color={'primary'}><DeleteSharp/> </IconButton>
         </h3>
         <AddItemForm addItem={addNewTask}/>
 
-        <ul className={s.ul}>
+        <List>
 
           {props.tasks.map((el) => {
 
@@ -79,7 +74,7 @@ export const Todolist = (props: PropsTodoType) => {
 
             return (
 
-              <li key={el.id} className={`${s.li} ${el.isDone ? s.isDone : ''}`}>
+              <ListItem key={el.id}>
                 <Checkbox onChange={changeStatusHandler}
                           checked={el.isDone}
                           color={'primary'}
@@ -90,12 +85,13 @@ export const Todolist = (props: PropsTodoType) => {
 
                 {/*<button className={s.button} onClick={deleteTaskHandler}>Del*/}
                 {/*</button>*/}
-                <IconButton className={s.button} onClick={deleteTaskHandler} color={'primary'} size={'large'}><DeleteForeverSharp/> </IconButton>
-              </li>
+                <IconButton onClick={deleteTaskHandler} color={'primary'} size={'large'}><DeleteForeverSharp/>
+                </IconButton>
+              </ListItem>
             )
           })}
 
-        </ul>
+        </List>
         <div>
           <Button
             variant={props.filterTask === 'All' ? 'outlined' : 'text'}

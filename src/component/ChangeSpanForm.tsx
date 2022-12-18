@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useState} from 'react';
-import s from './Todolist.module.css';
 import {TextField} from '@mui/material';
 
 export type ChangeSpanFormPropsType = {
@@ -22,6 +21,6 @@ const changeTitleInputHandler = (e:ChangeEvent<HTMLInputElement>)=>setTitle(e.cu
 
   return editMode
     ? <TextField variant={'standard'} value={title} onBlur={deActiveInputModeHandler} autoFocus onChange={changeTitleInputHandler}/>
-    : <span className={s.span} onDoubleClick={addInputModeHandler}>{props.title}</span>;
+    : <span onDoubleClick={addInputModeHandler}>{props.title}</span>;
 };
 
