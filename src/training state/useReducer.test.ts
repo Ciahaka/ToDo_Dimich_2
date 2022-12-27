@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {userReducer} from './useReducer';
 
 test('Редьюсер должен увеличить только возраст', () => {

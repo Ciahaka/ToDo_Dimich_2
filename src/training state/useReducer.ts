@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type StateType = {
   age: number
@@ -12,14 +11,14 @@ export type ActionType = {
 }
 
 export const userReducer = (state: StateType, action: ActionType): StateType => {
-  // const newState = {...state}
+  // const newState = {...training state}
   switch (action.type) {
     case 'INCREMENT-AGE':
-      // newState.age = state.age + 1;
+      // newState.age = training state.age + 1;
       // return newState
       return {...state, age: state.age + 1}
     case 'INCREMENT-CHILDREN-COUNT':
-      // newState.childrenCount = state.childrenCount + 1
+      // newState.childrenCount = training state.childrenCount + 1
       // return newState
       return {...state, childrenCount: state.childrenCount + 1}
     case 'CHANGE-USER-NAME':
