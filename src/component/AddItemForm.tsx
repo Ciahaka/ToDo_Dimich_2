@@ -23,12 +23,15 @@ export const AddItemForm = (props:AddItemFormType) => {
   }
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+
     setError(null)
+
     if (e.key === 'Enter') {
-      props.addItem(addInput);
+       props.addItem(addInput.trim());
 
       setAddInput('');
     }
+
   }
 
   return (
@@ -45,7 +48,7 @@ export const AddItemForm = (props:AddItemFormType) => {
       <Button
         onClick={addTaskHandler}
         color={'primary'}
-        size={'large'} ><BookmarkAddTwoTone/> </Button>
+        size={'large'} ><BookmarkAddTwoTone/></Button>
       {/*{error && <div className={s.errorMessage}> {error} </div>}*/}
 
     </div>
