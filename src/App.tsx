@@ -153,12 +153,12 @@ function App() {
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" >
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
+            color="secondary"
             aria-label="menu"
             sx={{mr: 2}}
           >
