@@ -61,15 +61,16 @@ export const todoListReducer = (state: Array<TodoListsStateType>, action: Action
       throw new Error('Спасите! Не знаю, что делать!')
   }
 }
-export const DeleteTodolistAC = (id: string): DeleteTodoListActionType => {
+export const deleteTodolistAC = (id: string): DeleteTodoListActionType => {
   return {type: 'DELETE-TODOLIST', id}
 }
-export const AddTodolistAC = (title: string): AddTodoListActionType => {
+export const addTodolistAC = (title: string): AddTodoListActionType => {
   return {type: 'ADD-TODOLIST', title}
 }
-export const ChangeTodolistTitleAC = (id:string,title: string): ChangeTodoListTitleActionType => {
+export const changeTodolistTitleAC = (id:string, title: string): ChangeTodoListTitleActionType => {
   return {type: 'CHANGE-TODOLIST-TITLE',id, title}
 }
-export const ChangeTodolistFilterAC = (id:string,filter: SelectionType): ChangeTodoListFilterActionType => {
+export const changeTodolistFilterAC = (id:string,filter: SelectionType): ChangeTodoListFilterActionType => {
+
   return {type: 'CHANGE-TODOLIST-FILTER',id, filter}
 }
