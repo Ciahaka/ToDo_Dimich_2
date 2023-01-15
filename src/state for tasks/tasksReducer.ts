@@ -1,14 +1,12 @@
-
 import {TaskStateType} from '../App';
 
 
-export type ActionsType = Action_1Type | Action_2Type
+export type ActionsType = deleteTaskAC | Action_2Type
 
-export type Action_1Type = {
-  type: '1'
-  id: string
-  title:string
-  isDone:boolean
+export type deleteTaskAC = {
+  type: 'DELETE-TASK'
+  taskID: string
+  todoListID: string
 }
 export type Action_2Type = {
   type: '2'
@@ -16,11 +14,16 @@ export type Action_2Type = {
 }
 
 
-export const tasksReducer = (state: Array<TaskStateType>, action: ActionsType): Array<TaskStateType> => {
+export const tasksReducer = (state: TaskStateType, action: ActionsType): TaskStateType => {
 
   switch (action.type) {
-    case '1': {
-      return {...state}
+    case 'DELETE-TASK': {
+      const stateCopy = {...state}
+      const tasks = state[action.todoListID]
+      const filteredTask = tasks.filter(el => el.id !== action.taskID)
+      stateCopy[action.todoListID] = filteredTask
+      return stateCopy
+
     }
     case '2': {
       return {...state}
@@ -31,9 +34,9 @@ export const tasksReducer = (state: Array<TaskStateType>, action: ActionsType): 
       throw new Error('Спасите! Не знаю, что делать!')
   }
 }
-export const actionAC_1 = (id: string): Action_1Type => {
-  return {type: '1', id, title:'111', isDone:true}
+export const deleteTaskAC = (taskID: string, todoListID: string): deleteTaskAC => {
+  return {type: 'DELETE-TASK', taskID, todoListID}
 }
-export const actionAC_2 = (id: string, title:string): Action_2Type => {
+export const actionAC_2 = (id: string, title: string): Action_2Type => {
   return {type: '2', title}
 }
