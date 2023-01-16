@@ -1,8 +1,9 @@
 import {TaskStateType} from '../App';
 import {v1} from 'uuid';
+import {AddTodoListActionType} from '../state for todolist/todolistReducer';
 
 
-export type ActionsType = deleteTaskACType | addTaskACType | changeTaskStatusType
+export type ActionsType = deleteTaskACType | addTaskACType | changeTaskStatusType | changeTaskTitleACType | AddTodoListActionType
 
 export type deleteTaskACType = {
   type: 'DELETE-TASK'
@@ -19,6 +20,16 @@ export type changeTaskStatusType = {
   taskID: string
   isDone: boolean
   todoListID: string
+}
+export type changeTaskTitleACType = {
+  type: 'CHANGE-TASK-TITLE'
+  taskID: string
+  title: string
+  todoListID: string
+}
+export type addTodolistACType = {
+  type: 'ADD-NEW-TODOLIST'
+  title: string
 }
 
 
@@ -50,7 +61,16 @@ export const tasksReducer = (state: TaskStateType, action: ActionsType): TaskSta
       }
       return stateCopy
     }
-
+    case 'CHANGE-TASK-TITLE': {
+      const stateCopy = {...state}
+      const tasks = stateCopy[action.todoListID]
+      const task = tasks.find((el) => el.id === action.taskID)
+      if (task) {
+        task.title = action.title
+        stateCopy[action.todoListID] = tasks
+      }
+      return stateCopy
+    }
 
     default:
       throw new Error('Спасите! Не знаю, что делать!')
@@ -62,6 +82,12 @@ export const deleteTaskAC = (taskID: string, todoListID: string): deleteTaskACTy
 export const addTaskAC = (title: string, todoListID: string): addTaskACType => {
   return {type: 'ADD-TASK', title, todoListID}
 }
-export const changeTaskStatusAC = (taskID: string, isDone: boolean, todoListID: string ):changeTaskStatusType => {
+export const changeTaskStatusAC = (taskID: string, isDone: boolean, todoListID: string): changeTaskStatusType => {
   return {type: 'CHANGE-TASK-STATUS', taskID, isDone, todoListID}
+}
+export const changeTaskTitleAC = (taskID: string, title: string, todoListID: string): changeTaskTitleACType => {
+  return {type: 'CHANGE-TASK-TITLE', taskID, title, todoListID}
+}
+export const addTodolistAC = (title:string) => {
+  return {type: 'ADD-NEW-TODOLIST',title}
 }
