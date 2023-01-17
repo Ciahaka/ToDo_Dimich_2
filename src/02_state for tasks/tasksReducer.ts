@@ -1,9 +1,15 @@
 import {TaskStateType} from '../App';
 import {v1} from 'uuid';
-import {AddTodoListActionType} from '../state for todolist/todolistReducer';
+import {AddTodoListActionType, DeleteTodoListActionType} from '../01_state for todolist/todolistReducer';
 
 
-export type ActionsType = deleteTaskACType | addTaskACType | changeTaskStatusType | changeTaskTitleACType | AddTodoListActionType
+export type ActionsType =
+  deleteTaskACType
+  | addTaskACType
+  | changeTaskStatusType
+  | changeTaskTitleACType
+  | AddTodoListActionType
+  | DeleteTodoListActionType
 
 export type deleteTaskACType = {
   type: 'DELETE-TASK'
@@ -26,10 +32,6 @@ export type changeTaskTitleACType = {
   taskID: string
   title: string
   todoListID: string
-}
-export type addTodolistACType = {
-  type: 'ADD-NEW-TODOLIST'
-  title: string
 }
 
 
@@ -71,6 +73,16 @@ export const tasksReducer = (state: TaskStateType, action: ActionsType): TaskSta
       }
       return stateCopy
     }
+    case 'ADD-TODOLIST': {
+      const stateCopy = {...state}
+      stateCopy[action.todolistId] = []
+      return stateCopy
+    }
+    case 'DELETE-TODOLIST':{
+      const stateCopy = {...state}
+      delete stateCopy[action.id]
+      return stateCopy
+    }
 
     default:
       throw new Error('Спасите! Не знаю, что делать!')
@@ -87,7 +99,4 @@ export const changeTaskStatusAC = (taskID: string, isDone: boolean, todoListID: 
 }
 export const changeTaskTitleAC = (taskID: string, title: string, todoListID: string): changeTaskTitleACType => {
   return {type: 'CHANGE-TASK-TITLE', taskID, title, todoListID}
-}
-export const addTodolistAC = (title:string) => {
-  return {type: 'ADD-NEW-TODOLIST',title}
 }
