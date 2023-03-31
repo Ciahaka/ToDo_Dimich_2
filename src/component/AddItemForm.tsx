@@ -15,23 +15,17 @@ export const AddItemForm = (props:AddItemFormType) => {
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setAddInput(e.currentTarget.value)
 
   const addTaskHandler = () => {
-    if (addInput.trim() === '') {
-      return setError('Поле не может быть пустым!')
-    }
-    props.addItem(addInput.trim ());
-    setAddInput('');
+    if (addInput.trim() !== '') {
+      props.addItem(addInput.trim());
+      setAddInput('');
+    }else setError('Поле не может быть пустым!')
   }
 
   const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-
     setError(null)
-
     if (e.key === 'Enter') {
-       props.addItem(addInput.trim());
-
-      setAddInput('');
+      addTaskHandler()
     }
-
   }
 
   return (
