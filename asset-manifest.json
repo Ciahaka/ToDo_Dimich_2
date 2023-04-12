@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/todo-dimich-2/static/css/main.2bbb23db.css",
+    "main.js": "/todo-dimich-2/static/js/main.37e37837.js",
+    "static/js/787.3c1b6374.chunk.js": "/todo-dimich-2/static/js/787.3c1b6374.chunk.js",
+    "index.html": "/todo-dimich-2/index.html",
+    "main.2bbb23db.css.map": "/todo-dimich-2/static/css/main.2bbb23db.css.map",
+    "main.37e37837.js.map": "/todo-dimich-2/static/js/main.37e37837.js.map",
+    "787.3c1b6374.chunk.js.map": "/todo-dimich-2/static/js/787.3c1b6374.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2bbb23db.css",
+    "static/js/main.37e37837.js"
+  ]
+}
